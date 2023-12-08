@@ -132,26 +132,30 @@ make_plot <- function(data, compound, combined = FALSE, facet = "horizontal", pl
     )
 
     p <- ggplot(data, aes(treatment, fold_change)) +
-      geom_hline(yintercept = 1, linetype = 2, linewidth = 0.6, color = "darkorange3") +
+      geom_hline(yintercept = 1, linetype = 2, linewidth = 0.5, 
+        color = "darkorange3") +
       geom_errorbar(aes(ymin = lower_ci, ymax = upper_ci), width = 0.2) +
-      geom_line(aes(group = 1)) +
-      geom_point(aes(fill = parameter), shape = 21, size = 3) +
+      geom_line(aes(group = 1), alpha = 0.7, linewidth = 0.4) +
+      geom_point(aes(fill = parameter), shape = 21, size = pointsize) +
 
       {if (facet == "horizontal") facet_grid(parameter ~ .)} +
       {if (facet == "free") facet_grid(parameter ~ ., scales = "free")} +
       {if (facet == "vertical") facet_wrap(. ~ parameter, scales = "free")} +
 
       scale_x_log10() +
-      theme_linedraw(base_size = pltsize) +
-      theme(legend.position = "none", plot.title = element_text(hjust = 0.5)) +
+      scale_y_continuous(labels = comma) +
+      theme_pubr(pltsize) + 
+      theme(legend.position = "none", plot.title = element_text(hjust = 0.5),
+        strip.text.x = element_text(size = 10)) +
 
       # set individual y-axis for each compound
       # use geom_blank with max / min values for each compound
       {if (!is.null(ylim)) geom_blank(data = ylim, aes(treatment, fold_change))} +
 
-      labs(x = "Concentrations", y = "Fold Change", title = compound) +
+      labs(x = "Concentrations", y = "Fold of change", title = compound) +
 
-      stat_pvalue_manual(statdata, label = "p_signif", size = sign_ind_size, tip.length = 0)
+      stat_pvalue_manual(statdata, label = "p_signif", size = sign_ind_size, 
+        tip.length = 0)
 
   }
   
@@ -216,11 +220,11 @@ for (compound in compounds) {
   #plt_list[[compound]] <- make_plot(data$data, compound, combined = FALSE, facet = "vertical", pltsize = 8, pointsize = 2) # FIX HERE
 }
 
-# --- stats to excel --------------------------------------------------------- #
-
 anova_data <- Reduce(function(x,y) rbind(x,y), anova_data)
 lm_data <- Reduce(function(x,y) rbind(x,y), lm_data)
 post_hoc_data <- Reduce(function(x,y) rbind(x,y), post_hoc_data)
+
+# --- stats to excel --------------------------------------------------------- #
 
 write.xlsx(
   list(
@@ -232,8 +236,6 @@ write.xlsx(
 )
 
 # --- save to pdf ------------------------------------------------------------ #
-
-plt_list <- list() # FIX HERE
 
 # anova_data contains all min and max fold changes
 ylim <- anova_data %>%
@@ -281,14 +283,15 @@ for (i in seq_len(length(tmp))){
   tmp[[i]]$p_value[!sign] <- 1
 }
 
+plt_list <- list() # FIX HERE
 for (compound in compounds) {
   plt_list[[compound]] <- make_plot(
     data = tmp[[compound]], 
     compound, 
     combined = FALSE, 
     facet = "vertical", 
-    pltsize = 8, 
-    pointsize = 2,
+    pltsize = 9, 
+    pointsize = 2.5,
     ylim = ylim,
     sign_ind_size = 3
   )
@@ -299,6 +302,6 @@ per_page <- 4
 
 li <- split(n, ceiling(n / per_page))
 
-pdf("img/plots_w_sign_indicator.pdf", width = 6)
+pdf("img/plots_w_sign_indicator.pdf", width = 7)
 for (i in li) print(plot_grid(plotlist = plt_list[i], ncol = 1))
 dev.off()
