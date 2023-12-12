@@ -152,7 +152,7 @@ make_plot <- function(data, compound, combined = FALSE, facet = "horizontal", pl
       # use geom_blank with max / min values for each compound
       {if (!is.null(ylim)) geom_blank(data = ylim, aes(treatment, fold_change))} +
 
-      labs(x = "Concentrations", y = "Fold of change", title = compound) +
+      labs(x = "Concentrations [M]", y = "Fold of control", title = compound) +
 
       stat_pvalue_manual(statdata, label = "p_signif", size = sign_ind_size, 
         tip.length = 0)
@@ -241,8 +241,8 @@ write.xlsx(
 ylim <- anova_data %>%
   group_by(parameter) %>%
   summarise(
-    min = min(lower_ci),
-    max = max(upper_ci) * 1.03 # 3% increase y-axis so sign-ind can fit
+    min = round(min(lower_ci), 1),
+    max = round(max(upper_ci) * 1.03, 1) # 3% increase y-axis so sign-ind can fit
   )
 
 # fix dataframe to contain fold_change and treatment (y , x)
@@ -260,12 +260,12 @@ rows <- rows[grepl("treat", rows)]
 post_hoc_data <- subset(post_hoc_data, contrast %in% rows)
 
 # keep track of which are significant
-tmp <- lapply(tmp, function(x) cbind(x, sign = FALSE))
+data <- lapply(tmp, function(x) cbind(x, sign = FALSE))
 for (i in seq_len(nrow(dat))){
   comp <- dat$compound[i]
   param <- dat$parameter[i]
 
-  out <- tmp[[comp]]
+  out <- data[[comp]]
   
   contrast <- subset(post_hoc_data, parameter %in% param & compound %in% comp & adj.p.value <= 0.05)$contrast
   contrast <- sub("treat", "", contrast)
@@ -274,19 +274,23 @@ for (i in seq_len(nrow(dat))){
 
   out$sign[rows] <- TRUE
 
-  tmp[[comp]] <- out
+  data[[comp]] <- out
 }
 
 # Set p-value of non-significant post hoc correlations = 1, quick-fix
-for (i in seq_len(length(tmp))){
-  sign <- tmp[[i]]$sign
-  tmp[[i]]$p_value[!sign] <- 1
+for (i in seq_len(length(data))){
+  sign <- data[[i]]$sign
+  data[[i]]$p_value[!sign] <- 1
 }
+
+# plot
+n <- seq_along(unique(d$cmpd))
+per_page <- 4
 
 plt_list <- list() # FIX HERE
 for (compound in compounds) {
   plt_list[[compound]] <- make_plot(
-    data = tmp[[compound]], 
+    data = data[[compound]], 
     compound, 
     combined = FALSE, 
     facet = "vertical", 
@@ -297,11 +301,8 @@ for (compound in compounds) {
   )
 } # FIX THIS AND ABOVE
 
-n <- seq_along(unique(d$cmpd))
-per_page <- 4
-
 li <- split(n, ceiling(n / per_page))
 
-pdf("img/plots_w_sign_indicator.pdf", width = 7)
+pdf("img/plots_w_sign_indicator.pdf", width = 7, height = 9)
 for (i in li) print(plot_grid(plotlist = plt_list[i], ncol = 1))
 dev.off()
