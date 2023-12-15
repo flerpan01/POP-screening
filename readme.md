@@ -1,9 +1,7 @@
 # Project summary
 
-Målet är att screena mixer av kemikalier i blod efter hormonstörande effekter. Vi använder oss av in vitro assays för att mäta effekter på steroidogenes av steroidsexhormonen estradiol och testosteron som är rekommenderade  av OECD. Metoden har skalats upp och validerats.
-Kemikarlier vi valt att fokusera på är sk. POPs, "persistent organic pollutants" som uppmätts i blod i en kohort från Västerbotten, och av dessa valde vi de 24 som återfanns i högst koncentration i ett dataset med nära 800 individer.
-
-För att undersöka mix-effekter och jämföra mixer från olika individer med varandra har vi först undersökt alla ämnen var för sig, och sedan återskapat mixer såsom uppmätts i olika individer och applicerat dessa på celler för att kvantifiera effekt på steroidogenes.
+Environmental contaminants are present in human tissues, and many persistent organic pollutants (POPs) with endocrine disruptive properties are detectable in human serum.<br>
+In this study the [OECD test guideline #456 steroidogenesis assay](https://www.oecd-ilibrary.org/environment/test-no-456-h295r-steroidogenesis-assay_9789264122642-en) was scaled up to screen 24 POPs in 96-well microplates for their effects on testosterone and estradiol synthesis, as well as cell viability, using H295R cells. The chemical test library included six polyfluoroalkyl substances ([PFAS](https://en.wikipedia.org/wiki/Per-_and_polyfluoroalkyl_substances)), five organochlorine pesticides, ten polychlorinated biphenyls (PCBs) and three polybrominated diphenyl ethers ([PBDEs](https://en.wikipedia.org/wiki/Polybrominated_diphenyl_ethers)), and all compounds were tested at eight concentrations (1 nM to 10 µM). The data was analyzed using a linear mixed-effects model, and Dunnett’s multiple comparison was applied as a post-hoc test.
 
 >The code was used in this paper: [Large scale in vitro screen for steroidogenic disruption by persistent organic pollutants found in blood reveal effects on testosterone, estradiol and viability at low concentration in H295R cells](https://doi.org/)
 
