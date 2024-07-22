@@ -67,6 +67,7 @@ lm_output <- function(res, parameter) {
 }
 make_data <- function(d, compound) {
   # subset a compound
+  print(compound)
   dat <- subset(d, cmpd %in% compound)
   treatments <- unique(dat$treat)
   
@@ -196,11 +197,11 @@ make_plot <- function(data, compound, combined = FALSE, facet = "horizontal", pl
 
 # = code ===================================================================== #
 
-d <- read.xlsx("misc/steroidogenesis R 2.0.xlsx")
+d <- read.xlsx("doc/steroidogenesis_dataset.xlsx")
 
 # make measures numeric and log transform
 cols <- names(d) %in% c("cmpd", "treat", "n")
-d[, !cols] <- sapply(d[, !cols], function(x) log2(as.numeric(x)))
+d[, !cols] <- sapply(d[, !cols], function(x) log2(as.numeric(x) + 0.5))
 
 compounds <- unique(d$cmpd)
 
@@ -303,6 +304,6 @@ for (compound in compounds) {
 
 li <- split(n, ceiling(n / per_page))
 
-pdf("img/plots_w_sign_indicator.pdf", width = 7, height = 9)
+pdf("img/plots.pdf", width = 7, height = 9)
 for (i in li) print(plot_grid(plotlist = plt_list[i], ncol = 1))
 dev.off()
