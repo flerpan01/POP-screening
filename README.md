@@ -12,13 +12,13 @@ The dataset is composed of human _H295R_ cells exposed to 24 POPs compounds with
 ```
 project/
 ├─- code
-|   └-- analysis.R
+│   └-- analysis.R
 ├-- data
-|   └-- fit_linear_mixed_model_output.xlsx
+│   └-- fit_linear_mixed_model_output.xlsx
 ├-- doc
-|   └-- steroidogenesis_dataset.xlsx
+│   └-- steroidogenesis_dataset.xlsx
 ├-- img
-|   └-- plots.pdf
+│   └-- plots.pdf
 └-- README.md
 ```
 
