@@ -1,8 +1,9 @@
 .DS_Store
-**/bin/*
+bin/
 data/
 doc/
 misc/
 output/
 report/
+manuscript/
 notes.md
