@@ -7,7 +7,7 @@ In this study the [OECD test guideline #456 steroidogenesis assay](https://www.o
 
 ## Project structure
 
-The dataset is composed of human _H295R_ cells exposed to 24 POPs compounds with measures collected for activity of estradiol, testosteron and MTT assay. The molar concentration of the compounds range from 0 (control) to 1e-5 mol/L. Experiments were ran in 3 batches. The dataset is curated in an excel file, `doc/steroidogenesis_dataset.xlsx`. `code/analysis.R` contains the code for statistical analysis (linear mixed-effects model, ANOVA and post-hoc) and will output (1) plots of all compounds (`img/plots.pdf`) and (2) the statistical output (`data/fit_linear_mixed_model_output.xlsx`). All analysis were run in [R](https://www.r-project.org/)
+The dataset is composed of human _H295R_ cells exposed to 24 POPs compounds with measures collected for activity of estradiol, testosteron and MTT assay. The molar concentration of the compounds range from 0 (control) to 1e-5 mol/L. Experiments were ran in 3 batches. The dataset is curated in an excel file, `doc/steroidogenesis_dataset.xlsx` (received upon request). `code/analysis.R` contains the code for statistical analysis (linear mixed-effects model, ANOVA and post-hoc) and will generate (1) plots of all compounds (`img/plots.pdf`) and (2) the statistical output (`data/fit_linear_mixed_model_output.xlsx`). All analysis were run in [R](https://www.r-project.org/)
 
 ```
 project/
@@ -22,4 +22,4 @@ project/
 └-- README.md
 ```
 
->This project was made by the [Karlsson Laboratory](https://karlssonlab.se/) at Stockholm University, Sweden
+>This project was made by the [Karlsson Laboratory](https://karlssonlab.se/) at Stockholm University, Sweden.
