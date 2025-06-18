@@ -1,3 +1,13 @@
+# This repository has moved
+
+This repository has been moved! You can now find it here:
+
+### https://github.com/andreyhgl/POP-screening
+
+// Andrey 2025-06-18
+
+---
+
 # Project summary
 
 Environmental contaminants are present in human tissues, and many persistent organic pollutants (POPs) with endocrine disruptive properties are detectable in human serum.<br>
